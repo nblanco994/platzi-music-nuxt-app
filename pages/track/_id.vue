@@ -1,7 +1,7 @@
 <template lang="pug">
 div(v-if="track && track.id")
   Header
-  .columns.is-multiline
+  .columns.is-multiline.m-5
     .column.is-3.has-text-centered
       figure.media-left
         p.image
@@ -10,17 +10,19 @@ div(v-if="track && track.id")
           a.button.is-primary.is-large.m-5
             span.icon(@click="selectTrack") &#x25B6;
     .column.is-8
-      .panel
+      .panel.is-primary
         .panel-heading
-          h1.title {{ `${track.name} - ${track.artists[0].name}` }}
+          h2.title.has-text-white {{ `${track.name} - ${track.artists[0].name}` }}
         .panel-block
           article.media
             .media-content
-              .content
-                ul(v-for="(v, k) in track")
-                  li 
-                    strong {{ k }}:&nbsp;
-                    span {{ v }}
+              .content 
+                h4.title.has-text-weight-semibold Nombre del Álbum: 📀 
+                  span.subtitle.has-text-weight-normal {{ track.album.name }}
+                h4.title.has-text-weight-semibold Fecha de lanzamiento: 🚀 
+                  span.subtitle.has-text-weight-normal {{ track.album.release_date }} 
+                h4.title.has-text-weight-semibold Popularidad: 🔥 
+                  span.subtitle.has-text-weight-normal {{ track.popularity }}%
             nav.level
               .level-left
                 a.level-item
@@ -83,4 +85,8 @@ export default {
 .column {
     margin: 20px;
 }
+img {
+     width: 100%;
+     border-radius: 50%;
+ }
 </style>
