@@ -8,12 +8,12 @@
     section.section(v-show="!isLoading")
       nav.nav
         .container.has-text-centered
-          input.input.is-info.is-medium.mx-1(style="width: 33%", 
+          input.input#input.is-info.is-medium.mx-1(style="width: 33%", 
           type="text", 
           placeholder="¿Cuál canción buscas?", 
-          v-model="searchQuery", v-on:keyup.enter="search")
+          v-model="searchQuery", v-on:keyup.enter="search", ref="input")
           a.button.is-info.is-medium.mx-1(v-on:click="search") Buscar
-          a.button.is-link.is-medium.mx-1 &times;
+          a.button.is-link.is-medium.mx-1(v-on:click="resetForm") &times;
       .container.results
         .columns.is-multiline
           .column.is-one-quarter(v-for="t in tracks") 
@@ -29,13 +29,14 @@ import PmNotification from '~/components/shared/Notification.vue'
 import PmLoader from '~/components/shared/Loader.vue'
 
 export default {
-  name: 'app',
+  name: 'App',
 
   components: { PmLoader, PmNotification }, // PmTrack - No es necesario importarlo, debido a Nuxt
 
   data () {
     return {
       searchQuery: '',
+      
       tracks: [],
 
       isLoading: false,
@@ -82,6 +83,10 @@ export default {
     },
     setSelectedTrack (id) {
       this.selectedTrack = id
+    },
+
+    resetForm () {
+      this.$refs.input.value = ""
     }
   }
 }
