@@ -26,6 +26,7 @@ div(v-if="track && track.id")
             nav.level
               .level-left
                 a.level-item
+  Footer
 </template>
 
 <script>
