@@ -3,8 +3,8 @@
     p
       img(v-bind:src="track.album.images[0].url")
     p 
-      strong {{ track.name }}
-      small [{{ track.duration_ms | ms-to-mm }}]
+      strong.has-text-white {{ track.name }} 🎸 
+      small {{ track.duration_ms | ms-to-mm }}
     p
       audio(controls, v-bind:src="track.preview_url")
 
