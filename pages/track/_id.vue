@@ -8,7 +8,7 @@ div(v-if="track && track.id")
           img(:src="track.album.images[0].url")
         p.has-text-centered.button-bar
           a.button.is-primary.is-large.m-5
-            span.icon(@click="selectTrack") &#x25B6;
+            span.icon(@click="selectTrack(); scrollTop();") &#x25B6;
     .column.is-8
       .panel.is-primary
         .panel-heading
@@ -67,6 +67,14 @@ export default {
    computed: {
      ...mapState(['track']),
    },
+
+  mounted () {
+    window.addEventListener('scroll', this.scrollListener)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.scrollListener)
+  },
+
    
    methods: {
      ...mapActions(['getTrackById']),
@@ -74,8 +82,16 @@ export default {
       selectTrack () {
             if (!this.track.preview_url) { return }
             this.$store.commit('setTrack', this.track)
-            this.$bus.$emit('set-track', this.track)
-        }
+            this.$bus.$emit('set-track', this.track)  
+        },
+      scrollTop () {
+        this.intervalId = setInterval(() => {
+            if (window.pageYOffset === 0) {
+            clearInterval(this.intervalId)
+            }
+            window.scroll(0, window.pageYOffset - 50)
+        }, 20)
+      }
    }
 
 }

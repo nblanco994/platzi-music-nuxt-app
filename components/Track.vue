@@ -17,7 +17,7 @@
                 nav.level
                     .level-left
                         button.level-item.button.is-primary
-                            span.icon.is-small(@click="selectTrack") ▶
+                            span.icon.is-small(@click="selectTrack(); scrollTop();") ▶
                         button.level-item.button.is-warning
                             span.icon.is-small(@click="goToTrack(track.id)") 🌎
 </template>
@@ -31,15 +31,33 @@ export default {
             required: true
         }
     },
+
+    mounted () {
+    window.addEventListener('scroll', this.scrollListener)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.scrollListener)
+  },
+
     methods: {
         goToTrack (id) {
             if (!this.track.preview_url) { return }
             this.$router.push({ name: 'track-id', params: { id } })
         },
+
         selectTrack () {
             if (!this.track.preview_url) { return }
             this.$store.commit('setTrack', this.track)
             this.$bus.$emit('set-track', this.track)
+        },
+
+        scrollTop () {
+        this.intervalId = setInterval(() => {
+            if (window.pageYOffset === 0) {
+            clearInterval(this.intervalId)
+            }
+            window.scroll(0, window.pageYOffset - 50)
+        }, 20)
         }
     }
 }
